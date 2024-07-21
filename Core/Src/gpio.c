@@ -22,8 +22,6 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-#include "i2c.h"
-#include "adc.h"
 static uint8_t DIGIT_ARR[] = {0X3F, 0X06, 0X5B, 0X4F, 0X66, 0X6D, 0X7D, 0X07, 0X7F, 0X6F};
 static void SN74HC595SendData(GPIO_TypeDef *ser_port,  uint16_t ser_pin, 
 									GPIO_TypeDef *sclk_port, uint16_t sclk_pin, 
@@ -90,113 +88,6 @@ void MX_GPIO_Init(void)
 
 }
 
-/* USER CODE BEGIN 2 */
-/**
-  * @brief  Light LED
-  * @retval None
-  */
-void UserDemo01(void)
-{
-	HAL_Delay(1000);
-	LED_OFF();
-	HAL_Delay(1000);
-	LED_ON();
-}
-
-/**
-  * @brief  Light LED by switch
-  * @retval None
-  */
-void UserDemo02(void)
-{
-//	static uint8_t state;
-//	
-//	switch(state) {
-//		case 0:
-//			if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET)
-//				state = 1;
-//			break;
-//		case 1:
-//			HAL_Delay(20);
-//			if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET)
-//				state ++;
-//			else
-//				state = 0;
-//			break;
-//		case 2:
-//			LED_TOGGLE();
-//			state = 0;
-//			break;
-//		default:
-//			state = 0;
-//			break;
-//	}
-	if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET) {
-		HAL_Delay(20);
-		if (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET)
-			while (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_5) == GPIO_PIN_RESET);
-			LED_TOGGLE();
-	}
-}
-
-/**
-  * @brief  Light nixie tube
-  * @retval None
-  */
-void UserDemo03(void)
-{
-	ShowDigit(0, 0, 1);
-	ShowDigit(0, 1, 2);
-	ShowDigit(0, 2, 3);
-	ShowDigit(1, 0, 5);
-	ShowDigit(1, 1, 6);
-	ShowDigit(1, 2, 7);
-		//ShowDigit(0, 1, 2);
-}
-
-/**
-  * @brief  Obtain and display the temperature and humidity
-  * @retval None
-  */
-void UserDemo04(void)
-{
-	uint16_t temper = 0, humid = 0;
-	float temperature, humidity;
-	
-	SHT40SendRecvData(&temperature, &humidity);
-	temper = (uint16_t)(temperature * 10);
-	humid = (uint16_t)(humidity * 10);
-	
-	ShowDigit(0, 0, (uint8_t)(temper / 100));
-	ShowDigit(0, 1, (uint8_t)(temper / 10 % 10));
-	ShowDigit(0, 2, (uint8_t)(temper % 10));
-	ShowDigit(1, 0, (uint8_t)(humid / 100));
-	ShowDigit(1, 1, (uint8_t)(humid / 10 % 10));
-	ShowDigit(1, 2, (uint8_t)(humid % 10));
-}
-
-/**
-  * @brief  Obtain and display the temperature and humidity
-  * @retval None
-  */
-void UserDemo05(void)
-{
-	uint16_t temp;
-	temp = (uint16_t)(GetBatteryLevel() * 10);
-	
-	ShowDigit(1, 0, (uint8_t)(temp / 100));
-	ShowDigit(1, 1, (uint8_t)(temp / 10 % 10));
-	ShowDigit(1, 2, (uint8_t)(temp % 10));
-}
-
-/** 
-  * @brief  Unit test for function UserDemoxx
-  * @retval None
-  */
-void UnitTest(void)
-{
-	UserDemo05();
-}
 
 /* 64Mhz时钟时，当ulCount为1，函数耗时3个时钟，延时=3*1/64us */
 /**

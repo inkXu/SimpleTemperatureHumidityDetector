@@ -35,6 +35,10 @@ thdetector01\main.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_i2c.h
 thdetector01\main.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_i2c_ex.h
 thdetector01\main.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h
 thdetector01\main.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h
+thdetector01\main.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h
+thdetector01\main.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h
 thdetector01\main.o: ../Core/Inc/adc.h
 thdetector01\main.o: ../Core/Inc/i2c.h
+thdetector01\main.o: ../Core/Inc/tim.h
 thdetector01\main.o: ../Core/Inc/gpio.h
+thdetector01\main.o: ..\AppCode\app.h
