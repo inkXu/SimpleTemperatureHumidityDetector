@@ -140,7 +140,7 @@ float GetBatteryLevel(void)
 	float temp = 0.0f;
 	
 	HAL_ADC_Start(&hadc1);
-	temp = 3.3f * HAL_ADC_GetValue(&hadc1) / 4095.0f;
+	temp = 3.0f * HAL_ADC_GetValue(&hadc1) / 4095.0f;
 	HAL_ADC_PollForConversion(&hadc1, 50);
 	HAL_ADC_Stop(&hadc1);
 	

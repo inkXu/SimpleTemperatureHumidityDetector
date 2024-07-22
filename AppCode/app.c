@@ -130,9 +130,14 @@ void UserDemo(void)
 		SetLED02NixieTube(0x00);
 		HAL_TIM_Base_Stop_IT(&htim14);
 		exist.sleep_state = 0;
-		LED_OFF();
+		/* Light the LED when the battery is too low (Did not test) */
+		if (GetBatteryLevel() < 0.5f) {
+			LED_ON();
+		} else {
+			LED_OFF();
+		}
 		HAL_SuspendTick();
-		// Cannot be used in interrupts
+		/* Cannot be used in interrupts */
 		HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
 	}
 	
@@ -151,19 +156,19 @@ void UserDemo(void)
 				exist.rc_msg[5] = humid % 10;
 				break;
 			case 1:
-				temp = (uint16_t)(GetBatteryLevel() * 10);
+				temp = (uint16_t)(GetBatteryLevel() * 10 * 2);
 				exist.rc_msg[0] = temp / 100;
 				exist.rc_msg[1] = temp / 10 % 10;
 				exist.rc_msg[2] = temp % 10;
-				exist.rc_msg[3] = exist.sleep_state;
-				exist.rc_msg[4] = 0;
+				exist.rc_msg[3] = 0;
+				exist.rc_msg[4] = exist.sleep_state;
 				exist.rc_msg[5] = 0;
 				break;
 			case 2:
-				exist.rc_msg[0] = 2;
-				exist.rc_msg[1] = 3;
-				exist.rc_msg[2] = 4;
-				exist.rc_msg[3] = 0;
+				exist.rc_msg[0] = 5;
+				exist.rc_msg[1] = 2;
+				exist.rc_msg[2] = 0;
+				exist.rc_msg[3] = 2;
 				exist.rc_msg[4] = 3;
 				exist.rc_msg[5] = 4;
 				break;
