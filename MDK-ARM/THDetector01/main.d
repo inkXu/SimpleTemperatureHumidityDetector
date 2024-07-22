@@ -41,4 +41,4 @@ thdetector01\main.o: ../Core/Inc/adc.h
 thdetector01\main.o: ../Core/Inc/i2c.h
 thdetector01\main.o: ../Core/Inc/tim.h
 thdetector01\main.o: ../Core/Inc/gpio.h
-thdetector01\main.o: ..\AppCode\app.h
+thdetector01\main.o: ../AppCode/app.h

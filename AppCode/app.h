@@ -25,7 +25,8 @@ extern "C" {
 /* Typedef -------------------------------------------------------------------*/
 typedef struct {
 	uint8_t key_state;
-	uint8_t sleep_state;
+	uint8_t update;
+	uint16_t sleep_state;
 	uint8_t rc_msg[6];
 } ST_EXEC;
 

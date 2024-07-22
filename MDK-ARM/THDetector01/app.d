@@ -41,3 +41,4 @@ thdetector01\app.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h
 thdetector01\app.o: ../Core/Inc/i2c.h
 thdetector01\app.o: ../Core/Inc/adc.h
 thdetector01\app.o: ../Core/Inc/gpio.h
+thdetector01\app.o: ../Core/Inc/tim.h

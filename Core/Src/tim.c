@@ -21,7 +21,8 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "app.h"
+#include "gpio.h"
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim14;
@@ -38,7 +39,7 @@ void MX_TIM14_Init(void)
 
   /* USER CODE END TIM14_Init 1 */
   htim14.Instance = TIM14;
-  htim14.Init.Prescaler = 640-1;
+  htim14.Init.Prescaler = 6400-1;
   htim14.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim14.Init.Period = 10000-1;
   htim14.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -96,9 +97,8 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM14) {
-		HAL_TIM_Base_Stop_IT(htim);
-		//HAL_SuspendTick();
-		HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+		exist.update = 1;
+		exist.sleep_state ++;
 	}
 }
 /* USER CODE END 1 */

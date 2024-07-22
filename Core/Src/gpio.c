@@ -22,23 +22,17 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
+#include "app.h"
+#include "tim.h"
+
 static uint8_t DIGIT_ARR[] = {0X3F, 0X06, 0X5B, 0X4F, 0X66, 0X6D, 0X7D, 0X07, 0X7F, 0X6F};
-static void SN74HC595SendData(GPIO_TypeDef *ser_port,  uint16_t ser_pin, 
-									GPIO_TypeDef *sclk_port, uint16_t sclk_pin, 
-									GPIO_TypeDef *rclk_port, uint16_t rclk_pin, 
-									uint8_t value);
 /* USER CODE END 0 */
 
 /*----------------------------------------------------------------------------*/
 /* Configure GPIO                                                             */
 /*----------------------------------------------------------------------------*/
 /* USER CODE BEGIN 1 */
-#define SetDigitNixieTube(value) SN74HC595SendData( DIG_SER_GPIO_Port, DIG_SER_Pin, \
-		DIG_SCLK_GPIO_Port, DIG_SCLK_Pin, DIG_RCLK_GPIO_Port, DIG_RCLK_Pin, (value))
-#define SetLED01NixieTube(value) SN74HC595SendData( LED1_SER_GPIO_Port, LED1_SER_Pin, \
-		LED1_SCLK_GPIO_Port, LED1_SCLK_Pin, LED1_RCLK_GPIO_Port, LED1_RCLK_Pin, (value))
-#define SetLED02NixieTube(value) SN74HC595SendData( LED2_SER_GPIO_Port, LED2_SER_Pin, \
-		LED2_SCLK_GPIO_Port, LED2_SCLK_Pin, LED2_RCLK_GPIO_Port, LED2_RCLK_Pin, (value))
+
 /* USER CODE END 1 */
 
 /** Configure pins as
@@ -82,12 +76,17 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PB5 */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+
 }
 
+/* USER CODE BEGIN 2 */
 
 /* 64Mhz时钟时，当ulCount为1，函数耗时3个时钟，延时=3*1/64us */
 /**
@@ -173,6 +172,27 @@ void SN74HC595SendData(GPIO_TypeDef *ser_port,  uint16_t ser_pin,
 	}
 	HAL_GPIO_WritePin(rclk_port, rclk_pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(rclk_port, rclk_pin, GPIO_PIN_RESET);
+}
+
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin)
+{
+	if (GPIO_Pin == GPIO_PIN_5) {
+		SysCtlDelay(40000);
+		if (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOB , GPIO_PIN_5)) {
+			//while (GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOB , GPIO_Pin));
+			exist.update = 1;
+			if (exist.key_state > 1)
+				exist.key_state = 0;
+			else
+				exist.key_state ++;
+			if (exist.sleep_state == 0) {
+				HAL_ResumeTick();
+				__HAL_TIM_SET_COUNTER(&htim14, 0);
+				HAL_TIM_Base_Start_IT(&htim14);
+				exist.key_state = 0;
+			}
+		}
+	}
 }
 
 /* USER CODE END 2 */

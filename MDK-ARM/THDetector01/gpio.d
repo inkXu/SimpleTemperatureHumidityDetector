@@ -38,3 +38,5 @@ thdetector01\gpio.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h
 thdetector01\gpio.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h
 thdetector01\gpio.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h
 thdetector01\gpio.o: ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h
+thdetector01\gpio.o: ../AppCode/app.h
+thdetector01\gpio.o: ../Core/Inc/tim.h
