@@ -354,10 +354,10 @@ ARM Macro Assembler    Page 6
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0+ --apcs=inter
 work --depend=thdetector01\startup_stm32g030xx.d -othdetector01\startup_stm32g0
 30xx.o -ID:\noval\Project\keilcode\THDetector\THDetector01\MDK-ARM\RTE -ID:\App
-Data\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include -ID:\AppData\Keil_v5\ARM\PA
-CK\Keil\STM32G0xx_DFP\1.5.0 --predefine="__UVISION_VERSION SETA 514" --predefin
-e="_RTE_ SETA 1" --predefine="STM32G030xx SETA 1" --list=startup_stm32g030xx.ls
-t startup_stm32g030xx.s
+Data\Keil_v5\ARM\PACK\ARM\CMSIS\6.1.0\CMSIS\Core\Include -ID:\AppData\Keil_v5\A
+RM\PACK\Keil\STM32G0xx_DFP\1.5.0 --predefine="__UVISION_VERSION SETA 514" --pre
+define="_RTE_ SETA 1" --predefine="STM32G030xx SETA 1" --list=startup_stm32g030
+xx.lst startup_stm32g030xx.s
 
 
 
